@@ -2,7 +2,9 @@
 
 require_once "../vendor/autoload.php";
 
-$wrapperFactory = new \Course\Api\Wrapper\WrapperFactory();
+$logDirectory = "../log";
+$loggerFactory = new \Course\Api\Logger\LoggerFactory($logDirectory);
+$wrapperFactory = new \Course\Api\Wrapper\WrapperFactory($loggerFactory);
 $api = new \Course\Api\Api($wrapperFactory);
 
 Flight::route("POST /order", [$api, "createOrder"]);
