@@ -2,10 +2,8 @@
 
 require_once "../vendor/autoload.php";
 
-$logDirectory = "../log";
-$loggerFactory = new \Course\Api\Logger\LoggerFactory($logDirectory);
-$wrapperFactory = new \Course\Api\Wrapper\WrapperFactory($loggerFactory);
-$api = new \Course\Api\Api($wrapperFactory);
+$container = \Course\Api\Bootstrap::boot();
+$api = $container->getByType(\Course\Api\Api::class);
 
 Flight::route("POST /order", [$api, "createOrder"]);
 

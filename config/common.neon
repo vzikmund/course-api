@@ -1,0 +1,4 @@
+services:
+    - Course\Api\Api
+    - Course\Api\Wrapper\WrapperFactory
+    - Course\Api\Logger\LoggerFactory(%logDir%)
