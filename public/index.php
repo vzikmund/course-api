@@ -2,22 +2,23 @@
 
 require_once "../vendor/autoload.php";
 
-Flight::route("GET /", function(){
-    echo "hello from empty method";
+
+Flight::route("POST /order", function(){
+    $id = Flight::request()->data->order_id;
+    echo "im creating a new order ID {$id}";
 });
 
-Flight::route("GET|POST /first_route", function(){
-    echo "hello from the first route";
+
+Flight::route("GET /serial-number/@idRetailer:[0-9]+/@serialNumber:[0-9]+",
+    function($idRetailer, $serialNumber){
+    echo "getting an order for retailer {$idRetailer} by its serial number {$serialNumber}";
 });
 
-Flight::route("POST /post_method", function(){
-    echo "hello from post";
+Flight::route("GET /order-id/@idRetailer:[0-9]+/@idRetailerOrder",
+    function($idRetailer, $idRetailerOrder){
+    echo "getting an order for retailer ID {$idRetailer} by its retailer order id {$idRetailerOrder}";
 });
 
-# POST
-# GET
-# PUT
-# DELETE
-# PATCH
+
 
 Flight::start();
