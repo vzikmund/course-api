@@ -2,23 +2,16 @@
 
 require_once "../vendor/autoload.php";
 
+$api = new \Course\Api\Api();
 
-Flight::route("POST /order", function(){
-    $id = Flight::request()->data->order_id;
-    echo "im creating a new order ID {$id}";
-});
+Flight::route("POST /order", [$api, "createOrder"]);
 
 
 Flight::route("GET /serial-number/@idRetailer:[0-9]+/@serialNumber:[0-9]+",
-    function($idRetailer, $serialNumber){
-    echo "getting an order for retailer {$idRetailer} by its serial number {$serialNumber}";
-});
+    [$api, "getOrderBySerialNumber"]);
 
 Flight::route("GET /order-id/@idRetailer:[0-9]+/@idRetailerOrder",
-    function($idRetailer, $idRetailerOrder){
-    echo "getting an order for retailer ID {$idRetailer} by its retailer order id {$idRetailerOrder}";
-});
-
+    [$api, "getOrderByRetailerOrderId"]);
 
 
 Flight::start();
