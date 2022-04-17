@@ -1,0 +1,30 @@
+{
+    "name": "course/api",
+    "description": "PHP course where we create REST API for generating PIN codes",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Course\\Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vojtěch Zikmund",
+            "email": "jsem@vzikmund.cz"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "2.5.0",
+        "nette/database": "v3.1.5",
+        "nette/utils": "v3.2.7",
+        "nette/bootstrap": "v3.1.2",
+        "nette/http": "v3.1.6",
+        "mikecao/flight": "v2.0.1",
+        "defuse/php-encryption": "v2.3.1"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
+    }
+}

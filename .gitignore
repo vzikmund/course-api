@@ -6,3 +6,4 @@
 /log/*
 !/log/.htaccess
 /config/prod.neon
+composer.lock
