@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Course\Api;
 
 
+use Course\Api\Exception\BadRequestException;
+use Course\Api\Exception\NotFoundException;
 use Course\Api\Wrapper\WrapperFactory;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
@@ -48,7 +50,7 @@ final class Api
             }
 
             if(count($error) > 0){
-                throw new \Exception( join(", ", $error));
+                throw new BadRequestException(join(", ", $error));
             }else{
                 return ["ready to move on"];
             }
@@ -65,6 +67,15 @@ final class Api
 
     public function getOrderByRetailerOrderId($idRetailer, $idRetailerOrderId):void{
         echo "Hello from APi class, $idRetailer, $idRetailerOrderId";
+    }
+
+
+    /**
+     * Mapping not found page
+     * @return void
+     */
+    public function notFound():void{
+        $this->wrapper->wrap(fn() => throw new NotFoundException("Method or endpoint not found."));
     }
 
 }

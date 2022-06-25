@@ -4,15 +4,18 @@ declare(strict_types=1);
 namespace Course\Api\Wrapper;
 
 
+use Course\Api\Exception\ApiException;
 use Monolog\Logger;
+use Nette\Database\UniqueConstraintViolationException;
 
 final class Wrapper
 {
 
-    /** @var array  */
+    /** @var array */
     private $loggerData;
 
-    public function __construct(private Logger $logger){
+    public function __construct(private Logger $logger)
+    {
 
         $request = \Flight::request();
         $this->loggerData = [
@@ -32,17 +35,32 @@ final class Wrapper
 
         $this->logger->info("-->", $this->loggerData);
 
+        $method = "error";
         try {
             $result = $body();
             $httpCode = 200;
             $method = "info";
-        } catch (\Exception $e) {
+        } catch (ApiException $e) {
             $result = [
                 "error" => $e->getMessage(),
                 "error_code" => $e->getCode()
             ];
+            $httpCode = $e->getHttpCode();
+        } catch (UniqueConstraintViolationException $e){
+            $result = [
+                "error" => "Duplicate data encountered",
+                "error_code" => 1
+            ];
+            $httpCode = 400;
+        } catch (\Exception $e) {
+            $result = [
+                "error" => "Internal server error",
+                "error_code" => 0
+            ];
             $httpCode = 500;
-            $method = "error";
+            $this->logger->error("Internal server error",
+                ["exception" => $e->getMessage(), "trace" => $e->getTrace()]
+            );
         }
 
         $this->logger->$method("<-- $httpCode", $result);

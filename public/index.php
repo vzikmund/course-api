@@ -14,5 +14,7 @@ Flight::route("GET /serial-number/@idRetailer:[0-9]+/@serialNumber:[0-9]+",
 Flight::route("GET /order-id/@idRetailer:[0-9]+/@idRetailerOrder",
     [$api, "getOrderByRetailerOrderId"]);
 
+Flight::map('notFound', [$api, "notFound"]);
+
 
 Flight::start();
